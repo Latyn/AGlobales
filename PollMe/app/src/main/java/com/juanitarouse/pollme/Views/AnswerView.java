@@ -1,5 +1,6 @@
 package com.juanitarouse.pollme.Views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,13 +22,13 @@ import com.juanitarouse.pollme.R;
  * Use the {@link AnswerView#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AnswerView extends Fragment {
+public class AnswerView extends Fragment implements AnswerDetails.OnFragmentInteractionListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     Button btnAnswer;
-
+    Activity activity;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -74,13 +75,14 @@ public class AnswerView extends Fragment {
         btnAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //activity = getActivity();
                 //Function to add answer when clicking
                 Toast.makeText(getContext(),"Adding Answer", Toast.LENGTH_SHORT).show();
 
-                FragmentManager manager = getFragmentManager();
+               FragmentManager manager = getFragmentManager();
                 AnswerDetails details = new AnswerDetails();
 
-                manager.beginTransaction().add(R.id.AnswerViewLayout, details).commit();
+                manager.beginTransaction().add(R.id.answersFragments, details).commit();
             }
         });
         // Inflate the layout for this fragment
@@ -109,6 +111,11 @@ public class AnswerView extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        //You can leave it empty
     }
 
     /**

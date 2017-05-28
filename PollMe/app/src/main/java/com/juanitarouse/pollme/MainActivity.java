@@ -17,13 +17,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.juanitarouse.pollme.Views.AnswerDetails;
+import com.juanitarouse.pollme.Views.AnswerView;
 import com.juanitarouse.pollme.Views.QuestionView;
 import android.widget.Button;
 import io.realm.QuestionRealmProxy;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, QuestionView.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, QuestionView.OnFragmentInteractionListener, AnswerView.OnFragmentInteractionListener, AnswerDetails.OnFragmentInteractionListener {
 
 
 

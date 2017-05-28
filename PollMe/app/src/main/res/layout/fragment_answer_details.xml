@@ -5,9 +5,12 @@
     tools:context="com.juanitarouse.pollme.Views.AnswerDetails">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
+
+    <RadioButton
+        android:id="@+id/radioButton3"
+        android:layout_width="match_parent"
+        android:layout_height="89dp"
+        android:checked="false"
+        android:text="RadioButton" />
 </FrameLayout>
