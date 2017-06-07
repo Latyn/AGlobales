@@ -20,20 +20,24 @@ import android.widget.Toast;
 import com.juanitarouse.pollme.Views.AnswerDetails;
 import com.juanitarouse.pollme.Views.AnswerView;
 import com.juanitarouse.pollme.Views.Contacts;
+import com.juanitarouse.pollme.Views.HistoryView;
 import com.juanitarouse.pollme.Views.QuestionView;
 import android.widget.Button;
 import io.realm.QuestionRealmProxy;
+import io.realm.Realm;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, QuestionView.OnFragmentInteractionListener, AnswerView.OnFragmentInteractionListener, AnswerDetails.OnFragmentInteractionListener, Contacts.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, QuestionView.OnFragmentInteractionListener, AnswerView.OnFragmentInteractionListener, AnswerDetails.OnFragmentInteractionListener, Contacts.OnFragmentInteractionListener , HistoryView.OnFragmentInteractionListener{
 
-
-
+    private Realm myRealm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        myRealm = Realm.getDefaultInstance();
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -55,6 +59,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
     @Override
     public void onBackPressed() {
@@ -113,6 +118,7 @@ public class MainActivity extends AppCompatActivity
             selectedFragment = true;
 
         }else if (id == R.id.nav_history) {
+            fragment = new HistoryView();
             Toast.makeText(this,"History", Toast.LENGTH_SHORT).show();
             selectedFragment = true;
 

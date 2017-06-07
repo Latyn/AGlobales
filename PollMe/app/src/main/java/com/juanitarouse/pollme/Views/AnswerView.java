@@ -11,10 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.juanitarouse.pollme.R;
+import com.juanitarouse.pollme.model.Question;
+
+import java.util.UUID;
+
+import io.realm.Realm;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +41,7 @@ public class AnswerView extends Fragment implements AnswerDetails.OnFragmentInte
     private String mParam1;
     private String mParam2;
     private OnFragmentInteractionListener mListener;
+    private Realm myRealm;
 
     public AnswerView() {
         // Required empty public constructor
@@ -65,13 +72,15 @@ public class AnswerView extends Fragment implements AnswerDetails.OnFragmentInte
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        myRealm = Realm.getDefaultInstance();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_answer_view, container, false); //enlazo elemento a la vista y retorno el view linea 74 para poder utilizar el FindViewBy
+        View view = inflater.inflate(R.layout.fragment_answer_view, container, false);
+        final View mainView = inflater.inflate(R.layout.fragment_question_view, container, false); //enlazo elemento a la vista y retorno el view linea 74 para poder utilizar el FindViewBy
         btnAnswer = (Button)view.findViewById(R.id.addAnswer);
 
 
@@ -81,19 +90,37 @@ public class AnswerView extends Fragment implements AnswerDetails.OnFragmentInte
                 //activity = getActivity();
                 //Function to add answer when clicking
                 Toast.makeText(getContext(),"Adding Answer", Toast.LENGTH_SHORT).show();
-
                 FragmentManager manager = getFragmentManager();
                 AnswerDetails details = new AnswerDetails();
 
-
-
                 manager.beginTransaction().add(R.id.answersFragments, details, getTag()).commit();
+                addQuestionToReal(mainView);
             }
         });
+
         // Inflate the layout for this fragment
         return view;
     }
 
+    public void addQuestionToReal(View view){
+
+            final String Id = UUID.randomUUID().toString();
+            EditText question = (EditText) this.getActivity().findViewById(R.id.editText);
+            final String questionBody = question.getText().toString();
+
+
+
+
+        myRealm.executeTransaction(new Realm.Transaction(){
+            @Override
+            public void execute(Realm realm) {
+                Question realmQuestion = myRealm.createObject(Question.class, Id);
+                realmQuestion.setBody(questionBody);
+                Toast.makeText(getContext(),"Question has been added", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
