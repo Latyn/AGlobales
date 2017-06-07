@@ -19,13 +19,14 @@ import android.widget.Toast;
 
 import com.juanitarouse.pollme.Views.AnswerDetails;
 import com.juanitarouse.pollme.Views.AnswerView;
+import com.juanitarouse.pollme.Views.Contacts;
 import com.juanitarouse.pollme.Views.QuestionView;
 import android.widget.Button;
 import io.realm.QuestionRealmProxy;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, QuestionView.OnFragmentInteractionListener, AnswerView.OnFragmentInteractionListener, AnswerDetails.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, QuestionView.OnFragmentInteractionListener, AnswerView.OnFragmentInteractionListener, AnswerDetails.OnFragmentInteractionListener, Contacts.OnFragmentInteractionListener {
 
 
 
@@ -117,6 +118,11 @@ public class MainActivity extends AppCompatActivity
 
         }else if (id == R.id.nav_tools) {
             Toast.makeText(this,"Tools", Toast.LENGTH_SHORT).show();
+            selectedFragment = true;
+
+        }else if (id == R.id.nav_contacts) {
+            fragment = new Contacts();
+            Toast.makeText(this,"Contacts", Toast.LENGTH_SHORT).show();
             selectedFragment = true;
 
         }

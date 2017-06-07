@@ -20,7 +20,7 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="88dp"
         android:layout_weight="1"
         android:text="Add Answer"
         android:layout_alignParentTop="true"

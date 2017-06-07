@@ -6,10 +6,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.juanitarouse.pollme.R;
@@ -32,7 +34,6 @@ public class AnswerView extends Fragment implements AnswerDetails.OnFragmentInte
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     private OnFragmentInteractionListener mListener;
 
     public AnswerView() {
@@ -72,6 +73,8 @@ public class AnswerView extends Fragment implements AnswerDetails.OnFragmentInte
 
         View view = inflater.inflate(R.layout.fragment_answer_view, container, false); //enlazo elemento a la vista y retorno el view linea 74 para poder utilizar el FindViewBy
         btnAnswer = (Button)view.findViewById(R.id.addAnswer);
+
+
         btnAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,10 +82,12 @@ public class AnswerView extends Fragment implements AnswerDetails.OnFragmentInte
                 //Function to add answer when clicking
                 Toast.makeText(getContext(),"Adding Answer", Toast.LENGTH_SHORT).show();
 
-               FragmentManager manager = getFragmentManager();
+                FragmentManager manager = getFragmentManager();
                 AnswerDetails details = new AnswerDetails();
 
-                manager.beginTransaction().add(R.id.answersFragments, details).commit();
+
+
+                manager.beginTransaction().add(R.id.answersFragments, details, getTag()).commit();
             }
         });
         // Inflate the layout for this fragment
