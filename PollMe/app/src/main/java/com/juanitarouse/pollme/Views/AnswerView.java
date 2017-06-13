@@ -129,7 +129,6 @@ public class AnswerView extends Fragment implements AnswerDetails.OnFragmentInte
 
                 Answer realmAnswer = myRealm.createObject(Answer.class, answerId);
                 realmAnswer.setBodyAnswer(answerBody);
-
                 realmQuestion.setAnswers(realmAnswer);
 
 

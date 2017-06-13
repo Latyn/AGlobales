@@ -66,7 +66,7 @@ public class HistoryView extends Fragment {
       RealmResults<Question> questionList = myRealm.where(Question.class).findAll();
 
 
-       ListView listHistoryView = (ListView) this.getView().findViewById(R.id.history_list);
+       ListView listHistoryView = (ListView) this.getActivity().findViewById(R.id.history_list);
        ArrayList<String> listOfQuestions = new ArrayList<String>();
 
        if (questionList!= null) {
@@ -81,7 +81,7 @@ public class HistoryView extends Fragment {
 
        if (listOfQuestions!= null) {
            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>
-                   (this.getContext(), android.R.layout.simple_list_item_1, listOfQuestions);
+                   (this.getActivity(), android.R.layout.simple_list_item_1, listOfQuestions);
            listHistoryView.setAdapter(arrayAdapter);
        }
 
@@ -90,6 +90,7 @@ public class HistoryView extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
