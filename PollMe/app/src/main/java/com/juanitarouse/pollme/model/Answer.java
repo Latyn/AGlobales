@@ -14,6 +14,16 @@ public class Answer extends RealmObject {
     private int AnswerNumber;
     private String QuestionId;
 
+    public String getBodyAnswer() {
+        return bodyAnswer;
+    }
+
+    public void setBodyAnswer(String bodyAnswer) {
+        this.bodyAnswer = bodyAnswer;
+    }
+
+    private String bodyAnswer;
+
     public int getAnswerNumber() {
         return AnswerNumber;
     }

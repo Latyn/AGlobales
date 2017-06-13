@@ -16,11 +16,14 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.juanitarouse.pollme.R;
+import com.juanitarouse.pollme.model.Answer;
 import com.juanitarouse.pollme.model.Question;
 
 import java.util.UUID;
 
 import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -93,7 +96,11 @@ public class AnswerView extends Fragment implements AnswerDetails.OnFragmentInte
                 FragmentManager manager = getFragmentManager();
                 AnswerDetails details = new AnswerDetails();
 
-                manager.beginTransaction().add(R.id.answersFragments, details, getTag()).commit();
+
+               // RealmQuery<Answer> answers = myRealm.where(Answer.class);
+               // RealmResults results = answers.findAll();
+
+               // manager.beginTransaction().add(R.id.answersFragments, details, getTag()).commit();
                 addQuestionToReal(mainView);
             }
         });
@@ -105,8 +112,11 @@ public class AnswerView extends Fragment implements AnswerDetails.OnFragmentInte
     public void addQuestionToReal(View view){
 
             final String Id = UUID.randomUUID().toString();
-            EditText question = (EditText) this.getActivity().findViewById(R.id.editText);
+            final String answerId = UUID.randomUUID().toString();
+            EditText question = (EditText) this.getActivity().findViewById(R.id.editQuestion);
+            EditText answer = (EditText) this.getActivity().findViewById(R.id.editAnswer1);
             final String questionBody = question.getText().toString();
+            final String answerBody = answer.getText().toString();
 
 
 
@@ -116,6 +126,13 @@ public class AnswerView extends Fragment implements AnswerDetails.OnFragmentInte
             public void execute(Realm realm) {
                 Question realmQuestion = myRealm.createObject(Question.class, Id);
                 realmQuestion.setBody(questionBody);
+
+                Answer realmAnswer = myRealm.createObject(Answer.class, answerId);
+                realmAnswer.setBodyAnswer(answerBody);
+
+                realmQuestion.setAnswers(realmAnswer);
+
+
                 Toast.makeText(getContext(),"Question has been added", Toast.LENGTH_SHORT).show();
             }
         });
