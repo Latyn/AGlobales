@@ -138,12 +138,15 @@ public class AnswerView extends Fragment implements AnswerDetails.OnFragmentInte
 
                 Answer realmAnswer1 = myRealm.createObject(Answer.class, answerId1);
                 realmAnswer1.setBodyAnswer(answerBody1);
+                realmAnswer1.setQuestionId(realmQuestion.getId());
 
                 Answer realmAnswer2 = myRealm.createObject(Answer.class, answerId2);
-                realmAnswer1.setBodyAnswer(answerBody2);
+                realmAnswer2.setBodyAnswer(answerBody2);
+                realmAnswer2.setQuestionId(realmQuestion.getId());
 
                 Answer realmAnswer3 = myRealm.createObject(Answer.class, answerId3);
-                realmAnswer1.setBodyAnswer(answerBody3);
+                realmAnswer3.setBodyAnswer(answerBody3);
+                realmAnswer3.setQuestionId(realmQuestion.getId());
 
                 /*realmQuestion.setAnswers(realmAnswer1);
                 realmQuestion.setAnswers(realmAnswer2);

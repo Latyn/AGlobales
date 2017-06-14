@@ -49,6 +49,7 @@ public class HistoryView extends Fragment {
     Button deleteButton;
     String question = "";
     RealmResults<Question> questionList;
+    RealmResults<Answer> answerList;
 
     private OnFragmentInteractionListener mListener;
 
@@ -75,24 +76,36 @@ public class HistoryView extends Fragment {
     }
    public void displayQuestionHistory(View view){
 
-      questionList = myRealm.where(Question.class).findAll();
+          questionList = myRealm.where(Question.class).findAll();
+       answerList = myRealm.where(Answer.class).findAll();
+
+       /*myRealm.executeTransaction(new Realm.Transaction() {
+           @Override
+           public void execute(Realm realm) {
+               myRealm.delete(Answer.class);
+           }
+       });*/
 
        ListView listHistoryView = (ListView) view.findViewById(R.id.history_list);
 
 
       // String[] listOfQuestions = { "Milk", "Butter", "Yogurt", "Toothpaste", "Ice Cream" };
        if (questionList!= null) {
-           String concatAnswers = "";
-           for (Question question : questionList) {
 
+           for (Question question : questionList) {
+               String concatAnswers = "";
                //String id = question.getId();
                String Body = question.getBody();
 
-               /*for (Answer answer : question.getAnswers()){
-                   concatAnswers = concatAnswers + answer.getBodyAnswer();
-               }*/
+               for (Answer answer : answerList){
+                   if (!answer.getQuestionId().equals(null)) {
+                       if (answer.getQuestionId().equals(question.getId())) {
+                           concatAnswers = concatAnswers + "     answer:     " + answer.getBodyAnswer();
+                       }
+                   }
+               }
 
-               listOfQuestions.add(Body+" and answers:" + concatAnswers);
+               listOfQuestions.add(Body+"   and answers" + concatAnswers);
            }
        }
 
