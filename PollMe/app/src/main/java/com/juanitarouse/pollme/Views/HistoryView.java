@@ -184,6 +184,7 @@ public class HistoryView extends Fragment {
 
         FloatingActionButton a  = (FloatingActionButton) this.getActivity().findViewById(R.id.fab);
         a.setEnabled(true);
+        a.show();
 
         deleteButton.setOnClickListener(myHandler);
         displayQuestionHistory(view);
