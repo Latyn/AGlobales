@@ -13,6 +13,16 @@ public class Contact extends RealmObject {
     private String Name;
     private String Phone;
 
+    public String getQuestionId() {
+        return QuestionId;
+    }
+
+    public void setQuestionId(String questionId) {
+        QuestionId = questionId;
+    }
+
+    private String QuestionId;
+
     public String getName() {
         return Name;
     }

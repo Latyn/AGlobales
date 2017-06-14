@@ -18,7 +18,7 @@ public class MyApplication extends Application{
 
         Realm.init(this);
         RealmConfiguration configuration = new RealmConfiguration.Builder()
-                .name("myFirstRealm.realm")//Defaut nombre es default.realm
+                .name("mySecondRealm.realm")//Defaut nombre es default.realm
                 .build(); //instancia the realm configuration
 
         Realm.setDefaultConfiguration(configuration); //De esta manera apuntamos la configuracion a la nueva base de datos que creamos

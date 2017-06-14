@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity
 
         myRealm = Realm.getDefaultInstance();
 
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

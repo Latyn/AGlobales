@@ -15,13 +15,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.juanitarouse.pollme.R;
+import com.juanitarouse.pollme.model.Answer;
 import com.juanitarouse.pollme.model.Contact;
+import com.juanitarouse.pollme.model.Question;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
+
+import io.realm.Realm;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,7 +49,7 @@ public class Contacts extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
+    private Realm myRealm;
     public Contacts() {
         // Required empty public constructor
     }
@@ -79,7 +85,7 @@ public class Contacts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        myRealm = Realm.getDefaultInstance();
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         //intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
 
@@ -164,6 +170,7 @@ public class Contacts extends Fragment {
     public void showSelectedNumber(String name,  String number, int type){
         ListView contactListView = (ListView) this.getView().findViewById(R.id.contacts_list);
 
+
         Contact myContact = new Contact();
 
         myContact.setName(name);
@@ -174,13 +181,24 @@ public class Contacts extends Fragment {
 
         ArrayList <String> StringValues = new ArrayList <String>();
 
-        for (Contact cont:contactList){
+        for (final Contact cont:contactList){
             StringValues.add(cont.getName() + " - " +cont.getPhone());
+            final String Id = UUID.randomUUID().toString();
+            myRealm.executeTransaction(new Realm.Transaction(){
+                @Override
+                public void execute(Realm realm) {
+                    Contact realmQuestion = myRealm.createObject(Contact.class, Id);
+                    realmQuestion.setName(cont.getName());
+                    realmQuestion.setPhone(cont.getName());
 
+                    Toast.makeText(getContext(),"Phone added", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         // Create an ArrayAdapter from List
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>
                 (this.getContext(), android.R.layout.simple_list_item_1, StringValues);
+
 
         contactListView.setAdapter(arrayAdapter);
 
