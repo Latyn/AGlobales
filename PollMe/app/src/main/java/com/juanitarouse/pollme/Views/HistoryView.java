@@ -3,6 +3,7 @@ package com.juanitarouse.pollme.Views;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -121,6 +122,7 @@ public class HistoryView extends Fragment {
                  deleteButton.setEnabled(true);
                  deletePosition= position;
                  deleteId=id;
+
                return true;
            }
        });
@@ -179,6 +181,10 @@ public class HistoryView extends Fragment {
         View view = inflater.inflate(R.layout.fragment_history_view, container, false);
         deleteButton = (Button) view.findViewById(R.id.deleteQuestionBtn);
         deleteButton.setEnabled(false);
+
+        FloatingActionButton a  = (FloatingActionButton) this.getActivity().findViewById(R.id.fab);
+        a.setEnabled(true);
+
         deleteButton.setOnClickListener(myHandler);
         displayQuestionHistory(view);
 
