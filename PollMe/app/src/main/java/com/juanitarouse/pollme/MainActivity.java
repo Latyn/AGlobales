@@ -1,14 +1,12 @@
 package com.juanitarouse.pollme;
 
-import android.app.ListActivity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.juanitarouse.pollme.Views.AnswerDetails;
@@ -23,8 +22,7 @@ import com.juanitarouse.pollme.Views.AnswerView;
 import com.juanitarouse.pollme.Views.Contacts;
 import com.juanitarouse.pollme.Views.HistoryView;
 import com.juanitarouse.pollme.Views.QuestionView;
-import android.widget.Button;
-import io.realm.QuestionRealmProxy;
+
 import io.realm.Realm;
 
 

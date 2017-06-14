@@ -7,10 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.juanitarouse.pollme.R;
+import com.juanitarouse.pollme.model.Answer;
 import com.juanitarouse.pollme.model.Contact;
 import com.juanitarouse.pollme.model.Question;
 
@@ -38,6 +42,13 @@ public class HistoryView extends Fragment {
     private String mParam1;
     private String mParam2;
     private Realm myRealm;
+    private ArrayList<String> listOfQuestions = new ArrayList<String>();
+    ArrayAdapter<String> arrayAdapter;
+    private int deletePosition = -1;
+    private long deleteId = 0;
+    Button deleteButton;
+    String question = "";
+    RealmResults<Question> questionList;
 
     private OnFragmentInteractionListener mListener;
 
@@ -62,28 +73,77 @@ public class HistoryView extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-   public void displayQuestionHistory(){
-      RealmResults<Question> questionList = myRealm.where(Question.class).findAll();
+   public void displayQuestionHistory(View view){
+
+      questionList = myRealm.where(Question.class).findAll();
+
+       ListView listHistoryView = (ListView) view.findViewById(R.id.history_list);
 
 
-       ListView listHistoryView = (ListView) this.getActivity().findViewById(R.id.history_list);
-       ArrayList<String> listOfQuestions = new ArrayList<String>();
-
+      // String[] listOfQuestions = { "Milk", "Butter", "Yogurt", "Toothpaste", "Ice Cream" };
        if (questionList!= null) {
+           String concatAnswers = "";
            for (Question question : questionList) {
 
-               String id = question.getId();
+               //String id = question.getId();
                String Body = question.getBody();
-               listOfQuestions.add(id + Body);
 
+               /*for (Answer answer : question.getAnswers()){
+                   concatAnswers = concatAnswers + answer.getBodyAnswer();
+               }*/
+
+               listOfQuestions.add(Body+" and answers:" + concatAnswers);
            }
        }
 
        if (listOfQuestions!= null) {
-           ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>
+           arrayAdapter = new ArrayAdapter<String>
                    (this.getActivity(), android.R.layout.simple_list_item_1, listOfQuestions);
            listHistoryView.setAdapter(arrayAdapter);
        }
+
+       listHistoryView.setLongClickable(true);
+       listHistoryView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+           public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+                 deleteButton.setEnabled(true);
+                 deletePosition= position;
+                 deleteId=id;
+               return true;
+           }
+       });
+    }
+
+    public void DeleteItemFromRealm(View v){
+        Toast.makeText(getContext(),"Deleting item:"+deletePosition, Toast.LENGTH_SHORT).show();
+       // ListView listHistoryView = (ListView) v.findViewById(R.id.history_list);
+
+        if (deletePosition>-1) {
+            question = questionList.get(deletePosition).getBody();
+            DeleteItemFromRealmDB();
+        }
+        listOfQuestions.remove(deletePosition);
+        arrayAdapter.notifyDataSetChanged();
+
+
+        deleteButton.setEnabled(false);
+        //arrayAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, listOfQuestions);
+        //listHistoryView.setAdapter(arrayAdapter);
+        deletePosition = -1;
+    }
+
+
+    public void DeleteItemFromRealmDB(){
+
+        myRealm.executeTransaction(new Realm.Transaction(){
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<Question> result = myRealm.where(Question.class).equalTo("body" , question).findAll();
+                result.deleteAllFromRealm();
+
+
+                Toast.makeText(getContext(),"Question has been deleted", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -96,15 +156,38 @@ public class HistoryView extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         myRealm = Realm.getDefaultInstance();
-        displayQuestionHistory();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_history_view, container, false);
+        deleteButton = (Button) view.findViewById(R.id.deleteQuestionBtn);
+        deleteButton.setEnabled(false);
+        deleteButton.setOnClickListener(myHandler);
+        displayQuestionHistory(view);
+
+        return view;
     }
+
+    View.OnClickListener myHandler = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch(v.getId()) {
+                case R.id.deleteQuestionBtn:
+                    // it was the delete button
+                    if (deleteId>-1){
+                        DeleteItemFromRealm(v);
+                    }
+                    else{
+                        Toast.makeText(getContext(),"Select an Item"+deleteId, Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+            }
+        }
+    };
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

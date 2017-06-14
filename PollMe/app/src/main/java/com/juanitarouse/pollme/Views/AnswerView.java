@@ -112,11 +112,20 @@ public class AnswerView extends Fragment implements AnswerDetails.OnFragmentInte
     public void addQuestionToReal(View view){
 
             final String Id = UUID.randomUUID().toString();
-            final String answerId = UUID.randomUUID().toString();
+            final String answerId1 = UUID.randomUUID().toString();
+            final String answerId2 = UUID.randomUUID().toString();
+            final String answerId3 = UUID.randomUUID().toString();
+
             EditText question = (EditText) this.getActivity().findViewById(R.id.editQuestion);
-            EditText answer = (EditText) this.getActivity().findViewById(R.id.editAnswer1);
+
+            EditText answer1 = (EditText) this.getActivity().findViewById(R.id.editAnswer1);
+            EditText answer2 = (EditText) this.getActivity().findViewById(R.id.editAnswer2);
+            EditText answer3 = (EditText) this.getActivity().findViewById(R.id.editAnswer3);
+
             final String questionBody = question.getText().toString();
-            final String answerBody = answer.getText().toString();
+            final String answerBody1 = answer1.getText().toString();
+            final String answerBody2 = answer2.getText().toString();
+            final String answerBody3 = answer3.getText().toString();
 
 
 
@@ -127,9 +136,18 @@ public class AnswerView extends Fragment implements AnswerDetails.OnFragmentInte
                 Question realmQuestion = myRealm.createObject(Question.class, Id);
                 realmQuestion.setBody(questionBody);
 
-                Answer realmAnswer = myRealm.createObject(Answer.class, answerId);
-                realmAnswer.setBodyAnswer(answerBody);
-                realmQuestion.setAnswers(realmAnswer);
+                Answer realmAnswer1 = myRealm.createObject(Answer.class, answerId1);
+                realmAnswer1.setBodyAnswer(answerBody1);
+
+                Answer realmAnswer2 = myRealm.createObject(Answer.class, answerId2);
+                realmAnswer1.setBodyAnswer(answerBody2);
+
+                Answer realmAnswer3 = myRealm.createObject(Answer.class, answerId3);
+                realmAnswer1.setBodyAnswer(answerBody3);
+
+                /*realmQuestion.setAnswers(realmAnswer1);
+                realmQuestion.setAnswers(realmAnswer2);
+                realmQuestion.setAnswers(realmAnswer3);*/
 
 
                 Toast.makeText(getContext(),"Question has been added", Toast.LENGTH_SHORT).show();
