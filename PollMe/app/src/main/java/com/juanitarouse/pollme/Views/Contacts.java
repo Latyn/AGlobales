@@ -189,7 +189,7 @@ public class Contacts extends Fragment {
                 public void execute(Realm realm) {
                     Contact realmQuestion = myRealm.createObject(Contact.class, Id);
                     realmQuestion.setName(cont.getName());
-                    realmQuestion.setPhone(cont.getName());
+                    realmQuestion.setPhone(cont.getPhone());
 
                     Toast.makeText(getContext(),"Phone added", Toast.LENGTH_SHORT).show();
                 }

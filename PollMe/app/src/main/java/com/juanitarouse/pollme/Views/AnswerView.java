@@ -133,6 +133,7 @@ public class AnswerView extends Fragment implements AnswerDetails.OnFragmentInte
         myRealm.executeTransaction(new Realm.Transaction(){
             @Override
             public void execute(Realm realm) {
+
                 Question realmQuestion = myRealm.createObject(Question.class, Id);
                 realmQuestion.setBody(questionBody);
 
@@ -148,9 +149,6 @@ public class AnswerView extends Fragment implements AnswerDetails.OnFragmentInte
                 realmAnswer3.setBodyAnswer(answerBody3);
                 realmAnswer3.setQuestionId(realmQuestion.getId());
 
-                /*realmQuestion.setAnswers(realmAnswer1);
-                realmQuestion.setAnswers(realmAnswer2);
-                realmQuestion.setAnswers(realmAnswer3);*/
 
 
                 Toast.makeText(getContext(),"Question has been added", Toast.LENGTH_SHORT).show();

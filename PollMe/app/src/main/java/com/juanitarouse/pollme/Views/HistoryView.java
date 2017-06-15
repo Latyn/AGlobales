@@ -14,13 +14,17 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.juanitarouse.pollme.MainActivity;
+import com.juanitarouse.pollme.MyApplication;
 import com.juanitarouse.pollme.R;
 import com.juanitarouse.pollme.model.Answer;
 import com.juanitarouse.pollme.model.Contact;
 import com.juanitarouse.pollme.model.Question;
+import com.juanitarouse.pollme.model.ToSend;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -51,6 +55,7 @@ public class HistoryView extends Fragment {
     String question = "";
     RealmResults<Question> questionList;
     RealmResults<Answer> answerList;
+    String bodyToFilter = "";
 
     private OnFragmentInteractionListener mListener;
 
@@ -77,7 +82,7 @@ public class HistoryView extends Fragment {
     }
    public void displayQuestionHistory(View view){
 
-          questionList = myRealm.where(Question.class).findAll();
+       questionList = myRealm.where(Question.class).findAll();
        answerList = myRealm.where(Answer.class).findAll();
 
        /*myRealm.executeTransaction(new Realm.Transaction() {
@@ -101,12 +106,12 @@ public class HistoryView extends Fragment {
                for (Answer answer : answerList){
                    if (!answer.getQuestionId().equals(null)) {
                        if (answer.getQuestionId().equals(question.getId())) {
-                           concatAnswers = concatAnswers + "     answer:     " + answer.getBodyAnswer();
+                           concatAnswers = concatAnswers + "     answer:     " + answer.getBodyAnswer() +".\n";
                        }
                    }
                }
 
-               listOfQuestions.add(Body+"   and answers" + concatAnswers);
+               listOfQuestions.add(Body+".\n    Based on your own experience: \n" + concatAnswers);
            }
        }
 
@@ -122,10 +127,14 @@ public class HistoryView extends Fragment {
                  deleteButton.setEnabled(true);
                  deletePosition= position;
                  deleteId=id;
+                 SelectedToSend();
+
 
                return true;
            }
        });
+
+
     }
 
     public void DeleteItemFromRealm(View v){
@@ -200,14 +209,64 @@ public class HistoryView extends Fragment {
                     // it was the delete button
                     if (deleteId>-1){
                         DeleteItemFromRealm(v);
+                        DeleteSelectedToSend();
                     }
                     else{
                         Toast.makeText(getContext(),"Select an Item"+deleteId, Toast.LENGTH_SHORT).show();
                     }
                     break;
+                case R.id.fab:
+                    // it was the delete button
+                    if (deleteId>-1){
+                        SelectedToSend();
+                    }
+                    else{
+                        Toast.makeText(getContext(),"No question Selected"+deleteId, Toast.LENGTH_SHORT).show();
+                    }
+                    break;
             }
         }
     };
+
+    private void SelectedToSend() {
+        final String Id = UUID.randomUUID().toString();
+        DeleteSelectedToSend();
+        myRealm.executeTransaction(new Realm.Transaction(){
+            @Override
+            public void execute(Realm realm) {
+
+                if (deletePosition>-1) {
+                    question = questionList.get(deletePosition).getBody();
+                }
+
+                Question questionElement = myRealm.where(Question.class).equalTo("body" , question).findAll().first();
+
+                ToSend realmQuestion = myRealm.createObject(ToSend.class, Id);
+                realmQuestion.setQuestionToSend(questionElement.getId());
+                realmQuestion .setSelected(true);
+
+                Toast.makeText(getContext(),"Question has been added", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void DeleteSelectedToSend() {
+        final String Id = UUID.randomUUID().toString();
+
+        myRealm.executeTransaction(new Realm.Transaction(){
+            @Override
+            public void execute(Realm realm) {
+
+
+                RealmResults toSendElement = myRealm.where(ToSend.class).findAll();
+
+                toSendElement.deleteAllFromRealm();
+
+                Toast.makeText(getContext(),"Question has been added", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

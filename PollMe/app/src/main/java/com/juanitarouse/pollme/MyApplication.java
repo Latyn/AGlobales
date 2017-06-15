@@ -12,6 +12,7 @@ import io.realm.RealmConfiguration;
 //Hereda de aplication la cual se va a encargar del manejo de datos
 public class MyApplication extends Application{
 
+
     @Override
     public void onCreate() {
         super.onCreate();
