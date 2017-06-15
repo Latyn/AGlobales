@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity
 
                     String smsBody = "";
 
-                    smsBody = smsBody + "Pregunta:" + questionToSend.getBody() + ".\n";
+                    smsBody = smsBody + "Pregunta: \n" + questionToSend.getBody() + ".\n";
 
 
                     smsBody = smsBody + "Cual seria tu respuesta:" + ".\n";
